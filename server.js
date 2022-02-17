@@ -45,33 +45,6 @@ app.post('/api/notes', (req, res) => {
   const newNote = req.body
   const renderNote = updateDatabase(newNote, db);
   res.json(renderNote);
-    // const newNote = req.body;
-    // newNote.id = Math.floor(Math.random() * 100000000);
-      // Obtain existing
-      // fs.readFile('./db/db.json', 'utf8', (err, data) => {
-      //   if (err) {
-      //     console.error(err);
-      //   } else {
-      //     // Convert string into JSON object
-      //     const parsedNotes = JSON.parse(data);
-  
-      //     // Add a new note
-      //     parsedNotes.push(newNote);
-  
-          
-      //     fs.writeFile(
-      //       './db/db.json',
-      //       JSON.stringify(parsedNotes, null, 4),
-      //       (writeErr) =>
-      //         writeErr
-      //           ? console.error(writeErr)
-      //           : console.info('Successfully updated database!')
-      //           );
-
-
-      //   }
-      // });
-
 })
 
 
