@@ -28,36 +28,49 @@ app.get('/api/notes', (req, res) => {
   res.json(db);
 })
 
-app.post('/api/notes', (req, res) => {
-    const newNote = req.body;
-    newNote.id = Math.floor(Math.random() * 100000000);
-    console.log(newNote)
-    
+function updateDatabase(note, database){
+  const newNote = note;
+  note.id = Math.floor(Math.random() * 1000)
+  database.push(newNote);
+  fs.writeFile(path.join(__dirname, './db/db.json'), JSON.stringify(database, null, 4), (err) =>{
+    if (err) {
+      console.log(err)
+    }
+  }
+  );
+    return newNote
+}
 
+app.post('/api/notes', (req, res) => {
+  const newNote = req.body
+  const renderNote = updateDatabase(newNote, db);
+  res.json(renderNote);
+    // const newNote = req.body;
+    // newNote.id = Math.floor(Math.random() * 100000000);
       // Obtain existing
-      fs.readFile('./db/db.json', 'utf8', (err, data) => {
-        if (err) {
-          console.error(err);
-        } else {
-          // Convert string into JSON object
-          const parsedNotes = JSON.parse(data);
+      // fs.readFile('./db/db.json', 'utf8', (err, data) => {
+      //   if (err) {
+      //     console.error(err);
+      //   } else {
+      //     // Convert string into JSON object
+      //     const parsedNotes = JSON.parse(data);
   
-          // Add a new note
-          parsedNotes.push(newNote);
+      //     // Add a new note
+      //     parsedNotes.push(newNote);
   
           
-          fs.writeFile(
-            './db/db.json',
-            JSON.stringify(parsedNotes, null, 4),
-            (writeErr) =>
-              writeErr
-                ? console.error(writeErr)
-                : console.info('Successfully updated database!')
-          );
-        }
-      });
+      //     fs.writeFile(
+      //       './db/db.json',
+      //       JSON.stringify(parsedNotes, null, 4),
+      //       (writeErr) =>
+      //         writeErr
+      //           ? console.error(writeErr)
+      //           : console.info('Successfully updated database!')
+      //           );
 
 
+      //   }
+      // });
 
 })
 
