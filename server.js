@@ -2,7 +2,6 @@ const express = require("express");
 const fs = require("fs")
 const path = require("path");
 const app = express();
-//app.use(express.static(path.join(__dirname, 'public')));
 const db = require("./db/db.json");
 // Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
@@ -38,13 +37,39 @@ function updateDatabase(note, database){
     }
   }
   );
-    return newNote
 }
+
+function deleteNote(id, database){
+  console.log("you hit the delete button")
+  for (i=0; i<database.length; i++){
+    idNum = Number(id)
+    console.log("idnum= " + idNum)
+    console.log('database= ' + database[i].id)
+    if (idNum === database[i].id) {
+      console.log("They are equal")
+      database.splice(i, 1)
+      fs.writeFile(path.join(__dirname, './db/db.json'), JSON.stringify(database, null, 4), (err) => {
+        if (err) {
+          console.log(err)
+        }
+      })
+      break
+    } else {
+      console.log("they are not equal")
+    }
+  }
+}
+
+app.delete('/api/notes/:id', (req, res) => {
+  noteId = req.params.id
+  deleteNote(noteId, db)
+  res.send()
+})
 
 app.post('/api/notes', (req, res) => {
   const newNote = req.body
   const renderNote = updateDatabase(newNote, db);
-  res.json(renderNote);
+  res.send()
 })
 
 
