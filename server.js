@@ -1,3 +1,4 @@
+//Importing all of the necessary modules
 const express = require("express");
 const fs = require("fs")
 const path = require("path");
@@ -10,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 //Port assignment that will default to 3001 unless assigned a port number by Heroku
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 
 
@@ -45,13 +46,9 @@ function updateDatabase(note, database){
 
 //Deletes the chosen note. Gets id from the body parameters in the delete request and then uses a for loop to delete the object with the same id from the database and overwrites the database minus the deleted object. 
 function deleteNote(id, database){
-  console.log("you hit the delete button")
   for (i=0; i<database.length; i++){
     idNum = Number(id)
-    console.log("idnum= " + idNum)
-    console.log('database= ' + database[i].id)
     if (idNum === database[i].id) {
-      console.log("They are equal")
       database.splice(i, 1)
       fs.writeFile(path.join(__dirname, './db/db.json'), JSON.stringify(database, null, 4), (err) => {
         if (err) {
@@ -59,8 +56,6 @@ function deleteNote(id, database){
         }
       })
       break
-    } else {
-      console.log("they are not equal")
     }
   }
 }
@@ -76,7 +71,7 @@ app.delete('/api/notes/:id', (req, res) => {
 app.post('/api/notes', (req, res) => {
   const newNote = req.body
   const renderNote = updateDatabase(newNote, db);
-  res.send()
+  res.send(renderNote)
 })
 
 
