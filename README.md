@@ -13,7 +13,7 @@
 
   ## Installation
   
-  No installation needed. Simply navigate to the deployment URL in this README.
+  No installation needed. Simply navigate to the URL by [clicking here!](https://peaceful-fjord-24626.herokuapp.com/)
 
   ## Usage
 
